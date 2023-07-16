@@ -2,7 +2,7 @@ import { Env } from "./worker";
 import { configuration, list_api } from "./configuration";
 import { Home } from "./routers/home.route";
 import { Price } from "./routers/price.route";
-import { CheckDiff } from "./cron/checkdiff.cron";
+import { CronJob } from "./cron";
 
 export async function handleRequest(
   request: Request,
@@ -82,21 +82,8 @@ export async function handleOptions(request: Request): Promise<Response> {
 export async function handleSchedule(
   event: ScheduledEvent,
   env: Env
-): Promise<Response> {
-  const cron = parseCron(event.cron);
-
-  /*
-   * Handling specific event to trigger for a CRON trigger
-   */
-  if (cron === "* * * * *") {
-    console.log("cron triggered!");
-    return CheckDiff();
-  }
-  console.log("no event triggered");
-  return new Response(null, {
-    status: 500,
-    statusText: "Internal server error, cron not detected",
-  });
+) {
+  return CronJob(env);
 }
 
 /**
