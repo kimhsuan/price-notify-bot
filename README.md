@@ -34,3 +34,4 @@ Reference
 ## Reference
 
 - [Cloudflare Workers · Cloudflare Workers docs](https://developers.cloudflare.com/workers/)
+- [alvinwilta/cloudflare-worker-boilerplate: Simple boilerplate for Cloudflare Worker with Typescript with CRON schedule handler](https://github.com/alvinwilta/cloudflare-worker-boilerplate/)
