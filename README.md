@@ -10,6 +10,17 @@ Reference
 
 - [Install/Update Wrangler · Cloudflare Workers docs](https://developers.cloudflare.com/workers/wrangler/install-and-update/)
 
+## Wrangler commands
+
+``` bash
+# uthorize Wrangler with your Cloudflare account using OAuth.
+wrangler login
+# Retrieve your user information and test your authentication configuration.
+wrangler whoami
+# Start a session to livestream logs from a deployed Worker.
+wrangler tail
+```
+
 ## Test Cron Triggers using Wrangler
 
 ``` bash
