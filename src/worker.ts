@@ -32,25 +32,25 @@ export interface Env {
 	// DB: D1Database
 	LINE_NOTIFY_TOKEN: string;
 }
-import { configuration } from "./configuration";
-import { handleRequest, handleOptions, handleSchedule } from "./handler";
+import { configuration } from './configuration';
+import { handleRequest, handleOptions, handleSchedule } from './handler';
 
 export default {
 	async fetch(request: Request, env: Env): Promise<Response> {
 		const isMethodAllowed = configuration.methods.includes(request.method);
-	
+
 		if (!isMethodAllowed)
-		  return new Response(null, {
-			status: 405,
-			statusText: "Method Not Allowed",
-		  });
-	
-		if (request.method === "OPTIONS") {
-		  return handleOptions(request);
+			return new Response(null, {
+				status: 405,
+				statusText: 'Method Not Allowed',
+			});
+
+		if (request.method === 'OPTIONS') {
+			return handleOptions(request);
 		} else {
-		  return handleRequest(request, env);
+			return handleRequest(request, env);
 		}
-	  },
+	},
 	// The scheduled handler is invoked at the interval set in our wrangler.toml's
 	// [[triggers]] configuration.
 	async scheduled(event: ScheduledEvent, env: Env, ctx: ExecutionContext): Promise<void> {
