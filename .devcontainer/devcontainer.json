@@ -27,6 +27,7 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
+				"esbenp.prettier-vscode",
 				"github.copilot",
 				"eamodio.gitlens",
 				"mhutchie.git-graph",
