@@ -27,6 +27,7 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
+				// prettier-ignore
 				"esbenp.prettier-vscode",
 				"github.copilot",
 				"eamodio.gitlens",
@@ -34,9 +35,5 @@
 				"davidanson.vscode-markdownlint"
 			]
 		}
-	},
-
-	"mounts": [
-		"source=${localEnv:HOME}/.ssh,target=/home/node/.ssh,type=bind"
-	]
+	}
 }
