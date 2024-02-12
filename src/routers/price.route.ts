@@ -1,15 +1,15 @@
 import { GetHoyabitPrice, GetMaxPrice } from "../price";
-import { accSub } from "../acc";
+import { Decimal } from 'decimal.js';
 
 export const Price = async () => {
-  const hoyaprice = Number.parseFloat(await GetHoyabitPrice()).toFixed(3);
-  const maxprice = Number.parseFloat(await GetMaxPrice()).toFixed(3);
-  const diff = await accSub(maxprice,hoyaprice);
+  const hoyaBuyPrice = Number.parseFloat(await GetHoyabitPrice()).toFixed(3);
+  const maxSellPrice = Number.parseFloat(await GetMaxPrice()).toFixed(3);
+  const diff = new Decimal(maxSellPrice).minus(hoyaBuyPrice);
   return new Response(
     JSON.stringify(
       {
-        hoyaprice: hoyaprice,
-        maxprice: maxprice,
+        hoyaBuyPrice: hoyaBuyPrice,
+        maxSellPrice: maxSellPrice,
         diff: diff,
       }
     ),

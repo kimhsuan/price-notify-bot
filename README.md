@@ -3,7 +3,7 @@
 ## Install Wrangler
 
 ``` bash
-npm install -g wrangler@3.2.0
+npm install -g wrangler@3.28.1
 ```
 
 Reference
@@ -13,7 +13,7 @@ Reference
 ## Wrangler commands
 
 ``` bash
-# uthorize Wrangler with your Cloudflare account using OAuth.
+# Authorize Wrangler with your Cloudflare account using OAuth.
 wrangler login
 # Retrieve your user information and test your authentication configuration.
 wrangler whoami
