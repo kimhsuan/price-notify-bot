@@ -1,4 +1,4 @@
-export const GetHoyabitPrice = async () => {
+export const GetHoyaBuyPrice = async () => {
 	const url = 'https://guest-apis.hoyabit.com/guest/apis/v2/common/trade/overview/buy';
 	const init = {
 		headers: {
@@ -7,14 +7,9 @@ export const GetHoyabitPrice = async () => {
 	};
 	const response = await fetch(url, init)
 		.then((response) => response.json())
-		.then((data) => {
+		.then((data: any) => {
 			// console.log(data)
-			for (const price of data.data) {
-				if (price.symbol === 'USDT') {
-					// console.log(price.price)
-					return price.price;
-				}
-			}
+			return data.data.find((price: any) => price.symbol === 'USDT').price;
 		});
 
 	return response;
@@ -29,7 +24,7 @@ export const GetMaxPrice = async () => {
 	};
 	const response = await fetch(url, init)
 		.then((response) => response.json())
-		.then((data) => {
+		.then((data: any) => {
 			// console.log(JSON.stringify(data[0].price))
 			return data[0].price;
 		});

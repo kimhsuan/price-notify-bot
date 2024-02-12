@@ -1,8 +1,8 @@
-import { GetHoyabitPrice, GetMaxPrice } from "../price";
+import { GetHoyaBuyPrice, GetMaxPrice } from "../price";
 import { Decimal } from 'decimal.js';
 
 export const Price = async () => {
-  const hoyaBuyPrice = Number.parseFloat(await GetHoyabitPrice()).toFixed(3);
+  const hoyaBuyPrice = Number.parseFloat(await GetHoyaBuyPrice()).toFixed(3);
   const maxSellPrice = Number.parseFloat(await GetMaxPrice()).toFixed(3);
   const diff = new Decimal(maxSellPrice).minus(hoyaBuyPrice);
   return new Response(

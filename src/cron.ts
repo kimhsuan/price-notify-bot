@@ -1,5 +1,5 @@
 import { Env } from './worker';
-import { GetHoyabitPrice, GetMaxPrice } from './price';
+import { GetHoyaBuyPrice, GetMaxPrice } from './price';
 import { Decimal } from 'decimal.js';
 
 const LineNotify = async (env: Env, message: string) => {
@@ -17,7 +17,7 @@ const LineNotify = async (env: Env, message: string) => {
 };
 
 export const CronJob = async (env: Env) => {
-	const hoyaBuyPrice = Number.parseFloat(await GetHoyabitPrice()).toFixed(3);
+	const hoyaBuyPrice = Number.parseFloat(await GetHoyaBuyPrice()).toFixed(3);
 	const maxSellPrice = Number.parseFloat(await GetMaxPrice()).toFixed(3);
 	const diff = new Decimal(maxSellPrice).minus(hoyaBuyPrice);
 	console.log(diff);
