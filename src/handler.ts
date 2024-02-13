@@ -34,7 +34,7 @@ export async function handleRequest(
     case list_api.home:
       return Home();
     case list_api.price:
-      return Price();
+      return Price(env);
     default:
       // * You can return a HTML body for a 404 page
       return new Response(null, {

@@ -1,9 +1,9 @@
 export const Home = async () => {
-  return new Response(JSON.stringify({ status: "OK" }), {
+  return new Response(JSON.stringify({status: 'OK'}), {
     status: 200,
-    statusText: "OK",
+    statusText: 'OK',
     headers: {
-      "content-type": "application/json;charset=UTF-8",
-    }
+      'content-type': 'application/json;charset=UTF-8',
+    },
   });
-}
+};

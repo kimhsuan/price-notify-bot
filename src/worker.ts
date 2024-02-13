@@ -31,6 +31,9 @@ export interface Env {
   // Example binding to a D1 Database. Learn more at https://developers.cloudflare.com/workers/platform/bindings/#d1-database-bindings
   // DB: D1Database
   LINE_NOTIFY_TOKEN: string;
+  MAX_API_URL: string;
+  CF_ACCESS_CLIENT_ID: string;
+  CF_ACCESS_CLIENT_SECRET: string;
 }
 import {configuration} from './configuration';
 import {handleRequest, handleOptions, handleSchedule} from './handler';
