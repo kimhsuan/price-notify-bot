@@ -3,7 +3,7 @@
 ## Install Wrangler
 
 ``` bash
-npm install -g wrangler@3.28.1
+npm install -g wrangler@3.72.0
 ```
 
 Reference
@@ -14,17 +14,17 @@ Reference
 
 ``` bash
 # Authorize Wrangler with your Cloudflare account using OAuth.
-wrangler login
+npx wrangler login
 # Retrieve your user information and test your authentication configuration.
-wrangler whoami
+npx wrangler whoami
 # Start a session to livestream logs from a deployed Worker.
-wrangler tail
+npx wrangler tail
 ```
 
 ## Test Cron Triggers using Wrangler
 
 ``` bash
-wrangler dev --test-scheduled
+npm run schedule
 curl "http://localhost:8787/__scheduled?cron=*+*+*+*+*"
 ```
 
@@ -35,7 +35,7 @@ Reference
 ## Secrets on deployed Workers
 
 ``` bash
-echo <VALUE> | wrangler secret put <NAME>
+echo <VALUE> | npx wrangler secret put <NAME>
 ```
 
 Reference
