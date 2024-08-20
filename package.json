@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "deploy": "wrangler deploy",
-    "start": "wrangler dev",
-    "schedule": "wrangler dev --test-scheduled",
+    "deploy": "npx wrangler deploy",
+    "start": "WRANGLER_LOG=debug npx wrangler dev",
+    "schedule": "WRANGLER_LOG=debug npx wrangler dev --test-scheduled",
     "lint": "gts lint",
     "clean": "gts clean",
     "compile": "tsc",
@@ -15,9 +15,9 @@
     "posttest": "npm run lint"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20230419.0",
+    "@cloudflare/workers-types": "^4.20240815.0",
     "typescript": "~5.2.0",
-    "wrangler": "^3.28.1",
+    "wrangler": "^3.72.0",
     "gts": "^5.2.0",
     "@types/node": "20.8.2"
   },
