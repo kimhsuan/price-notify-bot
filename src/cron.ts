@@ -1,5 +1,5 @@
 import {Env} from './worker';
-import {GetHoyaBuyPrice, GetMaxPrice} from './price';
+import {GetHoyaBuyPrice, GetMaxPrice, GetBitoProPrice} from './price';
 import {Decimal} from 'decimal.js';
 
 const LineNotify = async (env: Env, message: string) => {
@@ -18,21 +18,27 @@ const LineNotify = async (env: Env, message: string) => {
 
 export const CronJob = async (env: Env) => {
   const hoyaBuyPrice = Number.parseFloat(await GetHoyaBuyPrice()).toFixed(3);
-  const maxSellPrice = Number.parseFloat(await GetMaxPrice(env)).toFixed(3);
-  const diff = new Decimal(maxSellPrice).minus(hoyaBuyPrice);
-  console.log(diff);
-  if (diff.greaterThan(0.03)) {
-    console.log('diff is greater than 0.03');
+  const maxPrice = Number.parseFloat(await GetMaxPrice(env)).toFixed(3);
+  const bitoproPrice = Number.parseFloat(await GetBitoProPrice()).toFixed(3);
+  const maxhoyadiff = new Decimal(maxPrice).minus(hoyaBuyPrice);
+  const bitohoyadiff = new Decimal(bitoproPrice).minus(hoyaBuyPrice);
+  if (maxhoyadiff.greaterThan(0.03)) {
+    console.log(`maxhoyadiff ${maxhoyadiff} is greater than 0.03`);
     await LineNotify(
       env,
-      `MAX Sell Price ${maxSellPrice} is higher than HOYA Buy Price ${hoyaBuyPrice} more than 0.03\nPrice diff: ${diff}`
+      `MAX Price ${maxPrice} is higher than HOYA Buy Price ${hoyaBuyPrice} more than 0.03\nPrice diff: ${maxhoyadiff}`
     );
   } else {
-    console.log('diff is less than 0.03');
-    // await LineNotify(
-    //   env,
-    //   `MAX Sell Price ${maxSellPrice} is not higher than HOYA Buy Price ${hoyaBuyPrice} less than 0.03\nPrice diff: ${diff}`
-    // );
+    console.log(`maxhoyadiff: ${maxhoyadiff} is less than 0.03`);
+  }
+  if (bitohoyadiff.greaterThan(0.03)) {
+    console.log(`bitohoyadiff ${bitohoyadiff} is greater than 0.03`);
+    await LineNotify(
+      env,
+      `MAX Price ${maxPrice} is higher than HOYA Buy Price ${hoyaBuyPrice} more than 0.03\nPrice diff: ${bitohoyadiff}`
+    );
+  } else {
+    console.log(`bitohoyadiff: ${bitohoyadiff} is less than 0.03`);
   }
   console.log('cron triggered!');
 };

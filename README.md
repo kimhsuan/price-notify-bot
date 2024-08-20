@@ -19,13 +19,15 @@ npx wrangler login
 npx wrangler whoami
 # Start a session to livestream logs from a deployed Worker.
 npx wrangler tail
+# Deploy your Worker to Cloudflare.
+npx wrangler deploy
 ```
 
 ## Test Cron Triggers using Wrangler
 
 ``` bash
-npm run schedule
-curl "http://localhost:8787/__scheduled?cron=*+*+*+*+*"
+npm start
+curl "http://localhost:8787/__scheduled?cron=*%2F5+*+*+*+*"
 ```
 
 Reference

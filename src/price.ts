@@ -36,3 +36,20 @@ export const GetMaxPrice = async (env: Env) => {
   console.log('GetMaxPrice; ' + response);
   return response;
 };
+
+export const GetBitoProPrice = async () => {
+  const url = 'https://api.bitopro.com/v3/trades/USDT_TWD';
+  const init = {
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8',
+    },
+  };
+  const response = await fetch(url, init)
+    .then(response => response.json())
+    .then((data: any) => {
+      // console.log(data);
+      return data.data[0].price;
+    });
+  console.log('GetBitoProPrice; ' + response);
+  return response;
+};
