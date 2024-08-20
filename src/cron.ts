@@ -21,12 +21,14 @@ export const CronJob = async (env: Env) => {
   const maxSellPrice = Number.parseFloat(await GetMaxPrice(env)).toFixed(3);
   const diff = new Decimal(maxSellPrice).minus(hoyaBuyPrice);
   console.log(diff);
-  if (diff > 0.03) {
+  if (diff.greaterThan(0.03)) {
+    console.log('diff is greater than 0.03');
     await LineNotify(
       env,
       `MAX Sell Price ${maxSellPrice} is higher than HOYA Buy Price ${hoyaBuyPrice} more than 0.03\nPrice diff: ${diff}`
     );
   } else {
+    console.log('diff is less than 0.03');
     // await LineNotify(
     //   env,
     //   `MAX Sell Price ${maxSellPrice} is not higher than HOYA Buy Price ${hoyaBuyPrice} less than 0.03\nPrice diff: ${diff}`
