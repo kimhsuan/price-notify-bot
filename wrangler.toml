@@ -6,4 +6,4 @@ compatibility_date = "2023-05-15"
 # Docs: https://developers.cloudflare.com/workers/platform/triggers/cron-triggers/
 # Configuration: https://developers.cloudflare.com/workers/wrangler/configuration/#triggers
 [triggers]
-crons = ["*/10 * * * *"] # * * * * * = run every minute
+crons = ["*/5 * * * *"] # * * * * * = run every minute
