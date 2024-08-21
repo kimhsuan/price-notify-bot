@@ -35,7 +35,7 @@ export const CronJob = async (env: Env) => {
     console.log(`bitohoyadiff ${bitohoyadiff} is greater than 0.03`);
     await LineNotify(
       env,
-      `MAX Price ${maxPrice} is higher than HOYA Buy Price ${hoyaBuyPrice} more than 0.03\nPrice diff: ${bitohoyadiff}`
+      `BitoPro Price ${maxPrice} is higher than HOYA Buy Price ${hoyaBuyPrice} more than 0.03\nPrice diff: ${bitohoyadiff}`
     );
   } else {
     console.log(`bitohoyadiff: ${bitohoyadiff} is less than 0.03`);
