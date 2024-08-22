@@ -27,7 +27,7 @@ npx wrangler deploy
 
 ``` bash
 npm start
-curl "http://localhost:8787/__scheduled?cron=*%2F5+*+*+*+*"
+curl "http://localhost:8787/__scheduled?cron=*+*+*+*+*"
 ```
 
 Reference
