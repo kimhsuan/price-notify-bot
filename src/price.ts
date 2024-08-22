@@ -18,6 +18,24 @@ export const GetHoyaBuyPrice = async () => {
   return response;
 };
 
+export const GetHoyaSellPrice = async () => {
+  const url =
+    'https://guest-apis.hoyabit.com/guest/apis/v2/common/trade/overview/sell';
+  const init = {
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8',
+    },
+  };
+  const response = await fetch(url, init)
+    .then(response => response.json())
+    .then((data: any) => {
+      // console.log(data)
+      return data.data.find((price: any) => price.symbol === 'USDT').price;
+    });
+  console.log('GetHoyaSellPrice; ' + response);
+  return response;
+};
+
 export const GetMaxPrice = async (env: Env) => {
   const url = env.MAX_API_URL + '/api/v2/trades?market=usdttwd&limit=1';
   const init = {
