@@ -28,7 +28,7 @@ export const CronJob = async (env: Env) => {
     console.log(`maxhoyadiff ${hoyasellmaxdiff} is greater than ${diffprice}`);
     await LineNotify(
       env,
-      `HOYA Sell Price ${hoyaSellPrice} is higher than MAX Price ${maxPrice} more than ${diffprice}\nPrice diff: ${hoyasellbitodiff}`
+      `HOYA Sell Price ${hoyaSellPrice} is higher than MAX Price ${maxPrice} more than ${diffprice}\nPrice diff: ${hoyasellmaxdiff}`
     );
   } else {
     console.log(`hoyasellmaxdiff: ${hoyasellmaxdiff} is less than ${diffprice}`);
