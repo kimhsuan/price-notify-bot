@@ -16,6 +16,7 @@ jobs:
         name: Deploy
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          command: deploy --env dev
           secrets: |
             LINE_NOTIFY_TOKEN
             CF_ACCESS_CLIENT_ID
