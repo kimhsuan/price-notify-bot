@@ -3,39 +3,50 @@ import {sendLINENotify} from '../utils/notify';
 import {getHOYASellPrice, getMAXPrice, getBitoProPrice} from '../utils/price';
 import {Decimal} from 'decimal.js';
 
+const checkAndNotifyPriceDiff = async (
+  env: Env,
+  price1: Decimal,
+  price2: Decimal,
+  priceName1: string,
+  priceName2: string,
+  diffPrice: Decimal
+) => {
+  const priceDiff = price1.minus(price2);
+  if (priceDiff.greaterThan(diffPrice)) {
+    console.log(`${priceName1} ${priceDiff} is greater than ${diffPrice}`);
+    await sendLINENotify(
+      env,
+      `${priceName1}: ${price1}\n${priceName2}: ${price2}\nis more than ${diffPrice}\nDiff: ${priceDiff}`
+    );
+  } else {
+    console.log(
+      `${priceName1} minus ${priceName2} ${priceDiff} is less than ${diffPrice}`
+    );
+  }
+};
+
 export const checkPriceDiff = async (env: Env) => {
   const HOYASellPrice = new Decimal(await getHOYASellPrice()).toFixed(3);
   const MAXPrice = new Decimal(await getMAXPrice(env)).toFixed(3);
   const BitoProPrice = new Decimal(await getBitoProPrice()).toFixed(3);
-  const HOYASellMAXDiff = new Decimal(HOYASellPrice).minus(MAXPrice);
-  const HOYASellBitoProDiff = new Decimal(HOYASellPrice).minus(BitoProPrice);
   const diffPrice = new Decimal(0.03);
 
-  if (HOYASellMAXDiff.greaterThan(diffPrice)) {
-    console.log(`maxhoyadiff ${HOYASellMAXDiff} is greater than ${diffPrice}`);
-    await sendLINENotify(
-      env,
-      `HOYA Sell Price ${HOYASellPrice} is higher than MAX Price ${MAXPrice} more than ${diffPrice}\nPrice diff: ${HOYASellMAXDiff}`
-    );
-  } else {
-    console.log(
-      `HOYASellMAXDiff: ${HOYASellMAXDiff} is less than ${diffPrice}`
-    );
-  }
-
-  if (HOYASellBitoProDiff.greaterThan(diffPrice)) {
-    console.log(
-      `HOYASellBitoProDiff ${HOYASellBitoProDiff} is greater than ${diffPrice}`
-    );
-    await sendLINENotify(
-      env,
-      `HOYA Sell Price ${HOYASellPrice} is higher than BitoPro Price ${BitoProPrice} more than ${diffPrice}\nPrice diff: ${HOYASellBitoProDiff}`
-    );
-  } else {
-    console.log(
-      `HOYASellBitoProDiff: ${HOYASellBitoProDiff} is less than ${diffPrice}`
-    );
-  }
+  await checkAndNotifyPriceDiff(
+    env,
+    new Decimal(HOYASellPrice),
+    new Decimal(MAXPrice),
+    'HOYA Sell Price',
+    'MAX Price',
+    diffPrice
+  );
+  await checkAndNotifyPriceDiff(
+    env,
+    new Decimal(HOYASellPrice),
+    new Decimal(BitoProPrice),
+    'HOYA Sell Price',
+    'BitoPro Price',
+    diffPrice
+  );
 
   console.log('cron triggered!');
 };
