@@ -1,5 +1,6 @@
 import {Env} from '../worker';
 
+// {"status":200,"message":"ok"}
 export const sendLINENotify = async (env: Env, message: string) => {
   const url = 'https://notify-api.line.me/api/notify';
   const init = {
@@ -10,6 +11,15 @@ export const sendLINENotify = async (env: Env, message: string) => {
     },
     body: `message=\n${message}`,
   };
-  const response = await fetch(url, init).then(response => response.json());
-  console.log('Send Line Notify:' + response);
+
+  try {
+    const response = await fetch(url, init);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    console.log('Send Line Notify:', data);
+  } catch (error) {
+    console.error('Error sending Line Notify:', error);
+  }
 };
