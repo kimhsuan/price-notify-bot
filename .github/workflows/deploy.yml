@@ -2,11 +2,39 @@ on:
   push:
     branches:
       - main
+      - dev
 
 jobs:
-  deploy:
-    name: deploy to cloudflare worker
+  deploy-dev:
+    name: Deploy to Development
+    if: ${{ github.ref_name == 'dev' }}
     runs-on: ubuntu-22.04
+    environment: dev
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cloudflare/wrangler-action@v3
+        name: Deploy
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          command: deploy --env dev
+          secrets: |
+            LINE_CHANNEL_ACCESS_TOKEN
+            LINE_SEND_TO
+            CF_ACCESS_CLIENT_ID
+            CF_ACCESS_CLIENT_SECRET
+            MAX_API_URL
+          environment: dev
+        env:
+          LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
+          LINE_SEND_TO: ${{ secrets.LINE_SEND_TO }}
+          CF_ACCESS_CLIENT_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}
+          CF_ACCESS_CLIENT_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}
+          MAX_API_URL: ${{ vars.MAX_API_URL }}
+  deploy-prod:
+    name: Deploy to Production
+    if: ${{ github.ref_name == 'main' }}
+    runs-on: ubuntu-22.04
+    environment: prod
     steps:
       - uses: actions/checkout@v4
       - uses: cloudflare/wrangler-action@v3
@@ -14,12 +42,14 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           secrets: |
-            LINE_NOTIFY_TOKEN
+            LINE_CHANNEL_ACCESS_TOKEN
+            LINE_SEND_TO
             CF_ACCESS_CLIENT_ID
             CF_ACCESS_CLIENT_SECRET
             MAX_API_URL
         env:
-          LINE_NOTIFY_TOKEN: ${{ secrets.LINE_NOTIFY_TOKEN }}
-          CF_ACCESS_CLIENT_ID: ${{ vars.CF_ACCESS_CLIENT_ID }}
+          LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
+          LINE_SEND_TO: ${{ secrets.LINE_SEND_TO }}
+          CF_ACCESS_CLIENT_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}
           CF_ACCESS_CLIENT_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}
           MAX_API_URL: ${{ vars.MAX_API_URL }}

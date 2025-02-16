@@ -1,4 +1,4 @@
-export const configuration = {
+export const config = {
   //   host: '*',
   // * For CORS
   host: 'https://example.com',

@@ -1,9 +1,17 @@
 # Cloudflare Worker CronJob Practice
 
-## Install Wrangler
+## Wrangler
+
+Install Wrangler
 
 ``` bash
-npm install -g wrangler@3.72.0
+npm install wrangler@3.81.0 --save-dev
+```
+
+Check Wrangler version
+
+``` bash
+npx wrangler --version
 ```
 
 Reference

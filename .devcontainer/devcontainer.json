@@ -3,13 +3,10 @@
 {
 	"name": "Node.js",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "mcr.microsoft.com/devcontainers/javascript-node:18-bookworm",
+	"image": "mcr.microsoft.com/devcontainers/javascript-node:22-bookworm",
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
-	"features": {
-		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
-	},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
@@ -28,11 +25,12 @@
 		"vscode": {
 			"extensions": [
 				// prettier-ignore
+				"davidanson.vscode-markdownlint",
 				"esbenp.prettier-vscode",
-				"github.copilot",
-				"eamodio.gitlens",
 				"mhutchie.git-graph",
-				"davidanson.vscode-markdownlint"
+				"postman.postman-for-vscode",
+				"github.copilot",
+				"github.vscode-github-actions"
 			]
 		}
 	}

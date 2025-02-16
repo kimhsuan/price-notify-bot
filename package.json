@@ -1,10 +1,13 @@
 {
-  "name": "cloudflare-worker-cron",
+  "name": "price-notify-bot",
   "version": "0.0.0",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "private": true,
   "scripts": {
     "deploy": "npx wrangler deploy",
-    "start": "WRANGLER_LOG=debug npx wrangler dev --test-scheduled",
+    "start": "WRANGLER_LOG=debug npx wrangler dev --test-scheduled --env dev",
     "lint": "gts lint",
     "clean": "gts clean",
     "compile": "tsc",
@@ -14,9 +17,9 @@
     "posttest": "npm run lint"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20240815.0",
+    "@cloudflare/workers-types": "^4.20241112.0",
     "typescript": "~5.2.0",
-    "wrangler": "^3.72.0",
+    "wrangler": "^3.87.0",
     "gts": "^5.2.0",
     "@types/node": "20.8.2"
   },

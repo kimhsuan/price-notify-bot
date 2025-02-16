@@ -11,36 +11,21 @@
  *
  * Learn more at https://developers.cloudflare.com/workers/
  */
+import {config} from './config';
+import {handleRequest, handleOptions, handleSchedule} from './handler';
 
 export interface Env {
-  // Example binding to KV. Learn more at https://developers.cloudflare.com/workers/runtime-apis/kv/
-  // MY_KV_NAMESPACE: KVNamespace;
-  //
-  // Example binding to Durable Object. Learn more at https://developers.cloudflare.com/workers/runtime-apis/durable-objects/
-  // MY_DURABLE_OBJECT: DurableObjectNamespace;
-  //
-  // Example binding to R2. Learn more at https://developers.cloudflare.com/workers/runtime-apis/r2/
-  // MY_BUCKET: R2Bucket;
-  //
-  // Example binding to a Service. Learn more at https://developers.cloudflare.com/workers/runtime-apis/service-bindings/
-  // MY_SERVICE: Fetcher;
-  //
-  // Example binding to a Queue. Learn more at https://developers.cloudflare.com/queues/javascript-apis/
-  // MY_QUEUE: Queue;
-  //
-  // Example binding to a D1 Database. Learn more at https://developers.cloudflare.com/workers/platform/bindings/#d1-database-bindings
-  // DB: D1Database
-  LINE_NOTIFY_TOKEN: string;
-  MAX_API_URL: string;
+  LINE_CHANNEL_ACCESS_TOKEN: string;
+  LINE_SEND_TO: string;
   CF_ACCESS_CLIENT_ID: string;
   CF_ACCESS_CLIENT_SECRET: string;
+  KV: KVNamespace;
+  MAX_API_URL: string;
 }
-import {configuration} from './configuration';
-import {handleRequest, handleOptions, handleSchedule} from './handler';
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
-    const isMethodAllowed = configuration.methods.includes(request.method);
+    const isMethodAllowed = config.methods.includes(request.method);
 
     if (!isMethodAllowed)
       return new Response(null, {
