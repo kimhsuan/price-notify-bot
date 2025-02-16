@@ -42,7 +42,7 @@ export const checkPriceDiff = async (env: Env) => {
   const HOYASellPrice = new Decimal(await getHOYASellPrice()).toFixed(3);
   const MAXPrice = new Decimal(await getMAXPrice(env)).toFixed(3);
   const BitoProPrice = new Decimal(await getBitoProPrice()).toFixed(3);
-  const diffPrice = new Decimal(-0.1);
+  const diffPrice = new Decimal(0.03);
 
   await checkAndNotifyPriceDiff(
     env,
