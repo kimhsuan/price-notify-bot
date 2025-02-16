@@ -13,11 +13,24 @@ const checkAndNotifyPriceDiff = async (
 ) => {
   const priceDiff = price1.minus(price2);
   if (priceDiff.greaterThan(diffPrice)) {
-    console.log(`${priceName1} ${priceDiff} is greater than ${diffPrice}`);
+    const notify_key = `last_notify_time_${priceName1}_${priceName2}`;
+    const lastNotifyTime = await env.KV.get(notify_key);
+    const currentTime = Math.floor(Date.now() / 1000);
+
+    if (lastNotifyTime && currentTime - parseInt(lastNotifyTime) < 3600) {
+      console.log('Notification skipped due to time limit');
+      return;
+    }
+
+    console.log(
+      `${priceName1} minus ${priceName2} ${priceDiff} is greater than ${diffPrice}`
+    );
     await sendLINEPushMessage(
       env,
       `${priceName1}: ${price1}\n${priceName2}: ${price2}\nis more than ${diffPrice}\nDiff: ${priceDiff}`
     );
+
+    await env.KV.put(notify_key, currentTime.toString());
   } else {
     console.log(
       `${priceName1} minus ${priceName2} ${priceDiff} is less than ${diffPrice}`
@@ -29,7 +42,7 @@ export const checkPriceDiff = async (env: Env) => {
   const HOYASellPrice = new Decimal(await getHOYASellPrice()).toFixed(3);
   const MAXPrice = new Decimal(await getMAXPrice(env)).toFixed(3);
   const BitoProPrice = new Decimal(await getBitoProPrice()).toFixed(3);
-  const diffPrice = new Decimal(0.03);
+  const diffPrice = new Decimal(-0.1);
 
   await checkAndNotifyPriceDiff(
     env,

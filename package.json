@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "deploy": "npx wrangler deploy",
-    "start": "WRANGLER_LOG=debug npx wrangler dev --test-scheduled",
+    "start": "WRANGLER_LOG=debug npx wrangler dev --test-scheduled --env dev",
     "lint": "gts lint",
     "clean": "gts clean",
     "compile": "tsc",

@@ -17,9 +17,10 @@ import {handleRequest, handleOptions, handleSchedule} from './handler';
 export interface Env {
   LINE_CHANNEL_ACCESS_TOKEN: string;
   LINE_SEND_TO: string;
-  MAX_API_URL: string;
   CF_ACCESS_CLIENT_ID: string;
   CF_ACCESS_CLIENT_SECRET: string;
+  KV: KVNamespace;
+  MAX_API_URL: string;
 }
 
 export default {

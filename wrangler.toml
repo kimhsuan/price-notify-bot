@@ -13,8 +13,16 @@ head_sampling_rate = 1
 [triggers]
 crons = ["*/3 1-6 * * 2-6"]
 
+[[kv_namespaces]]
+binding = "KV"
+id = "c13e6e40e1c1431fa3ea7c618ec4df38"
+
 [env.dev]
 name = "price-notify-bot-dev"
 
 [env.dev.triggers]
 crons = ["*/15 * * * *"]
+
+[[env.dev.kv_namespaces]]
+binding = "KV"
+id = "58855527d70a4b67963948f4026a0494"
