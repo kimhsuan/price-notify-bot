@@ -15,7 +15,8 @@ import {config} from './config';
 import {handleRequest, handleOptions, handleSchedule} from './handler';
 
 export interface Env {
-  LINE_NOTIFY_TOKEN: string;
+  LINE_CHANNEL_ACCESS_TOKEN: string;
+  LINE_SEND_TO: string;
   MAX_API_URL: string;
   CF_ACCESS_CLIENT_ID: string;
   CF_ACCESS_CLIENT_SECRET: string;

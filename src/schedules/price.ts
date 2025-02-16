@@ -1,5 +1,5 @@
 import {Env} from '../worker';
-import {sendLINENotify} from '../utils/notify';
+import {sendLINEPushMessage} from '../utils/line';
 import {getHOYASellPrice, getMAXPrice, getBitoProPrice} from '../utils/price';
 import {Decimal} from 'decimal.js';
 
@@ -14,7 +14,7 @@ const checkAndNotifyPriceDiff = async (
   const priceDiff = price1.minus(price2);
   if (priceDiff.greaterThan(diffPrice)) {
     console.log(`${priceName1} ${priceDiff} is greater than ${diffPrice}`);
-    await sendLINENotify(
+    await sendLINEPushMessage(
       env,
       `${priceName1}: ${price1}\n${priceName2}: ${price2}\nis more than ${diffPrice}\nDiff: ${priceDiff}`
     );
