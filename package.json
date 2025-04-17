@@ -6,8 +6,7 @@
   },
   "private": true,
   "scripts": {
-    "deploy": "npx wrangler deploy",
-    "start": "npx wrangler dev --test-scheduled --env dev",
+    "start": "npx wrangler dev --test-scheduled",
     "lint": "gts lint",
     "clean": "gts clean",
     "compile": "tsc",

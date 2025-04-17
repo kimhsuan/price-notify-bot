@@ -47,6 +47,7 @@ jobs:
         name: Deploy
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          command: deploy --env prod
           secrets: |
             LINE_CHANNEL_ACCESS_TOKEN
             LINE_SEND_TO
