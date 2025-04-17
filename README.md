@@ -5,7 +5,7 @@
 Install Wrangler
 
 ``` bash
-npm install wrangler@3.81.0 --save-dev
+npm install wrangler@4.10.0 --save-dev
 ```
 
 Check Wrangler version
