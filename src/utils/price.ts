@@ -17,8 +17,9 @@ export const getHOYABuyPrice = async (): Promise<string> => {
     };
     const response = await fetch(url, init);
     const data: HOYAApiResponse = await response.json();
-    const price = data.data.find((price: HOYAPrice) => price.symbol === 'USDT')
-      ?.price;
+    const price = data.data.find(
+      (price: HOYAPrice) => price.symbol === 'USDT'
+    )?.price;
     if (price === undefined) {
       throw new Error('Price is undefined');
     }
@@ -41,8 +42,9 @@ export const getHOYASellPrice = async (): Promise<string> => {
     };
     const response = await fetch(url, init);
     const data: HOYAApiResponse = await response.json();
-    const price = data.data.find((price: HOYAPrice) => price.symbol === 'USDT')
-      ?.price;
+    const price = data.data.find(
+      (price: HOYAPrice) => price.symbol === 'USDT'
+    )?.price;
     if (price === undefined) {
       throw new Error('Price is undefined');
     }
