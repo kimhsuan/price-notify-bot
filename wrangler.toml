@@ -18,7 +18,7 @@ crons = ["*/2 1-6 * * 2-6"]
 
 [[env.prod.kv_namespaces]]
 binding = "KV"
-id = "c13e6e40e1c1431fa3ea7c618ec4df38"
+id = "74326915298742c6b6bfe745b9584651"
 
 [env.dev]
 name = "price-notify-bot-dev"
@@ -28,4 +28,4 @@ crons = ["*/15 1-6 * * 2-6"]
 
 [[env.dev.kv_namespaces]]
 binding = "KV"
-id = "58855527d70a4b67963948f4026a0494"
+id = "69916c1448e544a89ffbefbfe5d4e86c"
