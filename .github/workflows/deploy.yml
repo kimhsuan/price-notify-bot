@@ -4,11 +4,16 @@ on:
       - main
       - dev
   workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to (dev or prod)'
+        required: true
+        default: 'dev'
 
 jobs:
   deploy-dev:
     name: Deploy to Development
-    if: ${{ github.ref_name == 'dev' }}
+    if: ${{ github.event_name == 'push' && github.ref_name == 'dev' || github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'dev' }}
     runs-on: ubuntu-22.04
     environment: dev
     steps:
@@ -33,7 +38,7 @@ jobs:
           MAX_API_URL: ${{ vars.MAX_API_URL }}
   deploy-prod:
     name: Deploy to Production
-    if: ${{ github.ref_name == 'main' }}
+    if: ${{ github.event_name == 'push' && github.ref_name == 'main' || github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'prod' }}
     runs-on: ubuntu-22.04
     environment: prod
     steps:
