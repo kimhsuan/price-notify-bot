@@ -11,8 +11,7 @@
  *
  * Learn more at https://developers.cloudflare.com/workers/
  */
-import {config} from './config';
-import {handleRequest, handleOptions, handleSchedule} from './handler';
+import {handleSchedule} from './handler';
 
 export interface Env {
   LINE_CHANNEL_ACCESS_TOKEN: string;
@@ -24,21 +23,6 @@ export interface Env {
 }
 
 export default {
-  async fetch(request: Request, env: Env): Promise<Response> {
-    const isMethodAllowed = config.methods.includes(request.method);
-
-    if (!isMethodAllowed)
-      return new Response(null, {
-        status: 405,
-        statusText: 'Method Not Allowed',
-      });
-
-    if (request.method === 'OPTIONS') {
-      return handleOptions(request);
-    } else {
-      return handleRequest(request, env);
-    }
-  },
   // The scheduled handler is invoked at the interval set in our wrangler.toml's
   // [[triggers]] configuration.
   async scheduled(
