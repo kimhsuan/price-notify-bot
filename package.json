@@ -17,10 +17,10 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250413.0",
-    "typescript": "~5.2.0",
-    "wrangler": "^4.10.0",
+    "@types/node": "20.8.2",
     "gts": "^5.2.0",
-    "@types/node": "20.8.2"
+    "typescript": "~5.2.0",
+    "wrangler": "^4.10.0"
   },
   "dependencies": {
     "decimal.js": "^10.4.3"
