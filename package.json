@@ -6,7 +6,7 @@
   },
   "private": true,
   "scripts": {
-    "start": "npx wrangler dev --test-scheduled",
+    "start": "npx wrangler dev --env dev --test-scheduled",
     "lint": "gts lint",
     "clean": "gts clean",
     "compile": "tsc",
@@ -17,10 +17,10 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250413.0",
-    "typescript": "~5.2.0",
-    "wrangler": "^4.10.0",
+    "@types/node": "20.8.2",
     "gts": "^5.2.0",
-    "@types/node": "20.8.2"
+    "typescript": "~5.2.0",
+    "wrangler": "~4.24.1"
   },
   "dependencies": {
     "decimal.js": "^10.4.3"

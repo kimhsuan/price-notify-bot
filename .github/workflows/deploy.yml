@@ -23,6 +23,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           command: deploy --env dev
+          wranglerVersion: "4.24.1"
           secrets: |
             LINE_CHANNEL_ACCESS_TOKEN
             LINE_SEND_TO
@@ -47,6 +48,7 @@ jobs:
         name: Deploy
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          wranglerVersion: "4.24.1"
           command: deploy --env prod
           secrets: |
             LINE_CHANNEL_ACCESS_TOKEN

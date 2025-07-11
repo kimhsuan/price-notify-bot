@@ -24,7 +24,7 @@ id = "74326915298742c6b6bfe745b9584651"
 name = "price-notify-bot-dev"
 
 [env.dev.triggers]
-crons = ["*/15 1-6 * * 2-6"]
+crons = ["*/10 1-6 * * 2-6"]
 
 [[env.dev.kv_namespaces]]
 binding = "KV"
