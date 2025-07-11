@@ -11,7 +11,7 @@
  *
  * Learn more at https://developers.cloudflare.com/workers/
  */
-import {handleSchedule} from './handler';
+import {checkPriceDiff} from './schedule';
 
 export interface Env {
   LINE_CHANNEL_ACCESS_TOKEN: string;
@@ -20,6 +20,17 @@ export interface Env {
   CF_ACCESS_CLIENT_SECRET: string;
   KV: KVNamespace;
   MAX_API_URL: string;
+}
+
+/*
+ * Schedule handler
+ * For handling requests made by Cloudflare's CRON trigger
+ */
+export async function handleSchedule(
+  controller: ScheduledController,
+  env: Env
+) {
+  return checkPriceDiff(env);
 }
 
 export default {
