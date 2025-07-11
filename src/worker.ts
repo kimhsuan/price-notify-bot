@@ -26,10 +26,10 @@ export default {
   // The scheduled handler is invoked at the interval set in our wrangler.toml's
   // [[triggers]] configuration.
   async scheduled(
-    event: ScheduledEvent,
+    controller: ScheduledController,
     env: Env,
     ctx: ExecutionContext
   ): Promise<void> {
-    ctx.waitUntil(handleSchedule(event, env));
+    ctx.waitUntil(handleSchedule(controller, env));
   },
 };
