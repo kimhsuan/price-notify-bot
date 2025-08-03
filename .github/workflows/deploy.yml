@@ -17,7 +17,6 @@ jobs:
         name: Deploy
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          command: deploy --env ${ENVIRONMENT}
           wranglerVersion: "4.24.1"
           secrets: |
             LINE_CHANNEL_ACCESS_TOKEN
@@ -27,8 +26,8 @@ jobs:
             BITOPRO_API_URL
             HOYABIT_API_URL
             MAX_API_URL
+          environment: ${{ github.ref_name == 'main' && 'prod' || 'dev' }}
         env:
-          ENVIRONMENT: ${{ github.ref_name == 'main' && 'prod' || 'dev' }}
           LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
           LINE_SEND_TO: ${{ secrets.LINE_SEND_TO }}
           CF_ACCESS_CLIENT_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}
