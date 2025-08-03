@@ -17,7 +17,7 @@ jobs:
         name: Deploy
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          wranglerVersion: "4.24.1"
+          wranglerVersion: "4.24.4"
           secrets: |
             LINE_CHANNEL_ACCESS_TOKEN
             LINE_SEND_TO
