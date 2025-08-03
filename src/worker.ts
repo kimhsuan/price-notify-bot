@@ -19,6 +19,8 @@ export interface Env {
   CF_ACCESS_CLIENT_ID: string;
   CF_ACCESS_CLIENT_SECRET: string;
   KV: KVNamespace;
+  BITOPRO_API_URL: string;
+  HOYABIT_API_URL: string;
   MAX_API_URL: string;
 }
 

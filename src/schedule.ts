@@ -65,11 +65,13 @@ export const checkPriceDiff = async (env: Env) => {
   const currentTime = Math.floor(Date.now() / 1000);
 
   // 只做一次 toFixed(3) 並直接用 Decimal
-  const HOYASellPrice = new Decimal(await getHOYASellPrice()).toDecimalPlaces(
+  const HOYASellPrice = new Decimal(
+    await getHOYASellPrice(env)
+  ).toDecimalPlaces(3);
+  const MAXPrice = new Decimal(await getMAXPrice(env)).toDecimalPlaces(3);
+  const BitoProPrice = new Decimal(await getBitoProPrice(env)).toDecimalPlaces(
     3
   );
-  const MAXPrice = new Decimal(await getMAXPrice(env)).toDecimalPlaces(3);
-  const BitoProPrice = new Decimal(await getBitoProPrice()).toDecimalPlaces(3);
   const diffPrice = new Decimal(0.03);
 
   const messages: string[] = [];

@@ -6,10 +6,10 @@ import {
   BitoProApiResponse,
 } from '../interfaces/price';
 
-export const getHOYABuyPrice = async (): Promise<string> => {
+export const getHOYABuyPrice = async (env: Env): Promise<string> => {
   try {
     const url =
-      'https://guest-apis.hoyabit.com/guest/apis/v2/common/trade/overview/buy';
+      env.HOYABIT_API_URL + '/guest/apis/v2/common/trade/overview/buy';
     const init = {
       headers: {
         'Content-Type': 'application/json;charset=UTF-8',
@@ -31,10 +31,10 @@ export const getHOYABuyPrice = async (): Promise<string> => {
   }
 };
 
-export const getHOYASellPrice = async (): Promise<string> => {
+export const getHOYASellPrice = async (env: Env): Promise<string> => {
   try {
     const url =
-      'https://guest-apis.hoyabit.com/guest/apis/v2/common/trade/overview/sell';
+      env.HOYABIT_API_URL + '/guest/apis/v2/common/trade/overview/sell';
     const init = {
       headers: {
         'Content-Type': 'application/json;charset=UTF-8',
@@ -77,9 +77,9 @@ export const getMAXPrice = async (env: Env): Promise<string> => {
   }
 };
 
-export const getBitoProPrice = async (): Promise<string> => {
+export const getBitoProPrice = async (env: Env): Promise<string> => {
   try {
-    const url = 'https://api.bitopro.com/v3/trades/USDT_TWD';
+    const url = env.BITOPRO_API_URL + '/v3/trades/USDT_TWD';
     const init = {
       headers: {
         'Content-Type': 'application/json;charset=UTF-8',
