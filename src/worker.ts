@@ -14,11 +14,11 @@
 import {checkPriceDiff} from './schedule';
 
 export interface Env {
+  KV: KVNamespace;
   LINE_CHANNEL_ACCESS_TOKEN: string;
   LINE_SEND_TO: string;
   CF_ACCESS_CLIENT_ID: string;
   CF_ACCESS_CLIENT_SECRET: string;
-  KV: KVNamespace;
   BITOPRO_API_URL: string;
   HOYABIT_API_URL: string;
   MAX_API_URL: string;
