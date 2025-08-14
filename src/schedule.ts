@@ -4,6 +4,18 @@ import {getHOYASellPrice, getMAXPrice, getBitoProPrice} from './utils/price';
 import {Decimal} from 'decimal.js';
 
 // Helper function to check price difference and handle notification logic
+type CheckAndNotifyParams = {
+  env: Env;
+  basePrice: Decimal;
+  comparePrice: Decimal;
+  baseLabel: string;
+  compareLabel: string;
+  notifyKey: string;
+  lastNotifyTime: string | null;
+  currentTime: number;
+  diffPrice: Decimal;
+};
+
 async function checkAndNotify({
   env,
   basePrice,
@@ -14,17 +26,7 @@ async function checkAndNotify({
   lastNotifyTime,
   currentTime,
   diffPrice,
-}: {
-  env: Env;
-  basePrice: Decimal;
-  comparePrice: Decimal;
-  baseLabel: string;
-  compareLabel: string;
-  notifyKey: string;
-  lastNotifyTime: string | null;
-  currentTime: number;
-  diffPrice: Decimal;
-}) {
+}: CheckAndNotifyParams): Promise<string> {
   const priceDiff = basePrice.minus(comparePrice);
   if (priceDiff.greaterThan(diffPrice)) {
     if (!lastNotifyTime || currentTime - parseInt(lastNotifyTime) >= 1800) {
@@ -62,18 +64,23 @@ export const checkPriceDiff = async (env: Env) => {
   const lastNotifyTimeHoyaBito = await env.KV.get(notify_key_hoya_bito);
   const currentTime = Math.floor(Date.now() / 1000);
 
-  const HOYASellPrice = new Decimal(await getHOYASellPrice()).toFixed(3);
-  const MAXPrice = new Decimal(await getMAXPrice(env)).toFixed(3);
-  const BitoProPrice = new Decimal(await getBitoProPrice()).toFixed(3);
+  // 只做一次 toFixed(3) 並直接用 Decimal
+  const HOYASellPrice = new Decimal(
+    await getHOYASellPrice(env)
+  ).toDecimalPlaces(3);
+  const MAXPrice = new Decimal(await getMAXPrice(env)).toDecimalPlaces(3);
+  const BitoProPrice = new Decimal(await getBitoProPrice(env)).toDecimalPlaces(
+    3
+  );
   const diffPrice = new Decimal(0.03);
 
-  let messageBody = '';
+  const messages: string[] = [];
 
   // 檢查 HOYA Sell Price 與 MAX Price 差異
-  messageBody += await checkAndNotify({
+  const msgHoyaMax = await checkAndNotify({
     env,
-    basePrice: new Decimal(HOYASellPrice),
-    comparePrice: new Decimal(MAXPrice),
+    basePrice: HOYASellPrice,
+    comparePrice: MAXPrice,
     baseLabel: 'HOYA Sell Price',
     compareLabel: 'MAX Price',
     notifyKey: notify_key_hoya_max,
@@ -81,12 +88,13 @@ export const checkPriceDiff = async (env: Env) => {
     currentTime,
     diffPrice,
   });
+  if (msgHoyaMax) messages.push(msgHoyaMax);
 
   // 檢查 HOYA Sell Price 與 BitoPro Price 差異
-  messageBody += await checkAndNotify({
+  const msgHoyaBito = await checkAndNotify({
     env,
-    basePrice: new Decimal(HOYASellPrice),
-    comparePrice: new Decimal(BitoProPrice),
+    basePrice: HOYASellPrice,
+    comparePrice: BitoProPrice,
     baseLabel: 'HOYA Sell Price',
     compareLabel: 'BitoPro Price',
     notifyKey: notify_key_hoya_bito,
@@ -94,9 +102,10 @@ export const checkPriceDiff = async (env: Env) => {
     currentTime,
     diffPrice,
   });
+  if (msgHoyaBito) messages.push(msgHoyaBito);
 
-  if (messageBody) {
-    console.log('Notification sent with message:\n' + messageBody);
+  if (messages.length > 0) {
+    console.log('Notification sent with message:\n' + messages.join('\n'));
   }
   console.log('cron triggered!');
 };

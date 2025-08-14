@@ -20,7 +20,7 @@
     "@types/node": "20.8.2",
     "gts": "^5.2.0",
     "typescript": "~5.2.0",
-    "wrangler": "~4.24.1"
+    "wrangler": "~4.24.4"
   },
   "dependencies": {
     "decimal.js": "^10.4.3"

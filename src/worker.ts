@@ -11,25 +11,38 @@
  *
  * Learn more at https://developers.cloudflare.com/workers/
  */
-import {handleSchedule} from './handler';
+import {checkPriceDiff} from './schedule';
 
 export interface Env {
+  KV: KVNamespace;
   LINE_CHANNEL_ACCESS_TOKEN: string;
   LINE_SEND_TO: string;
   CF_ACCESS_CLIENT_ID: string;
   CF_ACCESS_CLIENT_SECRET: string;
-  KV: KVNamespace;
+  BITOPRO_API_URL: string;
+  HOYABIT_API_URL: string;
   MAX_API_URL: string;
+}
+
+/*
+ * Schedule handler
+ * For handling requests made by Cloudflare's CRON trigger
+ */
+export async function handleSchedule(
+  controller: ScheduledController,
+  env: Env
+) {
+  return checkPriceDiff(env);
 }
 
 export default {
   // The scheduled handler is invoked at the interval set in our wrangler.toml's
   // [[triggers]] configuration.
   async scheduled(
-    event: ScheduledEvent,
+    controller: ScheduledController,
     env: Env,
     ctx: ExecutionContext
   ): Promise<void> {
-    ctx.waitUntil(handleSchedule(event, env));
+    ctx.waitUntil(handleSchedule(controller, env));
   },
 };
