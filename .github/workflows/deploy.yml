@@ -2,19 +2,18 @@ on:
   push:
     branches:
       - main
-      - dev
   workflow_dispatch:
 
 jobs:
-  deploy:
-    if: github.ref_name == 'main' || github.ref_name == 'dev'
-    name: Deploy to ${{ github.ref_name == 'main' && 'prod' || 'dev' }} environment
+  deploy-dev:
+    if: github.event_name == 'push' && github.ref_name == 'main'
+    name: Deploy to dev environment
     runs-on: ubuntu-22.04
-    environment: ${{ github.ref_name == 'main' && 'prod' || 'dev' }}
+    environment: dev
     steps:
       - uses: actions/checkout@v4
       - uses: cloudflare/wrangler-action@v3
-        name: Deploy
+        name: Deploy (dev)
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           wranglerVersion: "4.24.4"
@@ -26,7 +25,37 @@ jobs:
             BITOPRO_API_URL
             HOYABIT_API_URL
             MAX_API_URL
-          environment: ${{ github.ref_name == 'main' && 'prod' || 'dev' }}
+          environment: dev
+        env:
+          LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
+          LINE_SEND_TO: ${{ secrets.LINE_SEND_TO }}
+          CF_ACCESS_CLIENT_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}
+          CF_ACCESS_CLIENT_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}
+          BITOPRO_API_URL: ${{ vars.BITOPRO_API_URL}}
+          HOYABIT_API_URL: ${{ vars.HOYABIT_API_URL }}
+          MAX_API_URL: ${{ vars.MAX_API_URL }}
+
+  deploy-prod:
+    if: github.event_name == 'workflow_dispatch' && github.ref_name == 'main'
+    name: Deploy to prod environment
+    runs-on: ubuntu-22.04
+    environment: prod
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cloudflare/wrangler-action@v3
+        name: Deploy (prod)
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          wranglerVersion: "4.24.4"
+          secrets: |
+            LINE_CHANNEL_ACCESS_TOKEN
+            LINE_SEND_TO
+            CF_ACCESS_CLIENT_ID
+            CF_ACCESS_CLIENT_SECRET
+            BITOPRO_API_URL
+            HOYABIT_API_URL
+            MAX_API_URL
+          environment: prod
         env:
           LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
           LINE_SEND_TO: ${{ secrets.LINE_SEND_TO }}
