@@ -1,0 +1,55 @@
+name: Reusable Cloudflare Deploy
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: Target Wrangler environment (dev or prod)
+        required: true
+        type: string
+      wranglerVersion:
+        description: Wrangler version to use
+        required: false
+        default: '4.24.4'
+        type: string
+    secrets:
+      CLOUDFLARE_API_TOKEN:
+        required: true
+      LINE_CHANNEL_ACCESS_TOKEN:
+        required: true
+      LINE_SEND_TO:
+        required: true
+      CF_ACCESS_CLIENT_ID:
+        required: true
+      CF_ACCESS_CLIENT_SECRET:
+        required: true
+
+jobs:
+  deploy:
+    name: Deploy to ${{ inputs.environment }} environment
+    runs-on: ubuntu-22.04
+    environment: ${{ inputs.environment }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cloudflare/wrangler-action@v3
+        name: Deploy (${{ inputs.environment }})
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          wranglerVersion: ${{ inputs.wranglerVersion }}
+          secrets: |
+            LINE_CHANNEL_ACCESS_TOKEN
+            LINE_SEND_TO
+            CF_ACCESS_CLIENT_ID
+            CF_ACCESS_CLIENT_SECRET
+            BITOPRO_API_URL
+            HOYABIT_API_URL
+            MAX_API_URL
+          environment: ${{ inputs.environment }}
+        env:
+          LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
+          LINE_SEND_TO: ${{ secrets.LINE_SEND_TO }}
+          CF_ACCESS_CLIENT_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}
+          CF_ACCESS_CLIENT_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}
+          BITOPRO_API_URL: ${{ vars.BITOPRO_API_URL }}
+          HOYABIT_API_URL: ${{ vars.HOYABIT_API_URL }}
+          MAX_API_URL: ${{ vars.MAX_API_URL }}
