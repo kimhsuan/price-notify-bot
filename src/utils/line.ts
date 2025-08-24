@@ -1,14 +1,5 @@
 import {Env} from '../worker';
-
-interface LineMessage {
-  type: string;
-  text: string;
-}
-
-interface LinePushBody {
-  to: string;
-  messages: LineMessage[];
-}
+import {LinePushBody} from '../interfaces/line';
 
 export const sendLINEPushMessage = async (
   env: Env,
