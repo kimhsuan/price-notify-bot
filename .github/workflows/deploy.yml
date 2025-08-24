@@ -6,7 +6,7 @@ on:
 
 jobs:
   deploy-dev:
-    if: github.event_name == 'push' && github.ref_name == 'main'
+    if: github.ref_name == 'main'
     name: Deploy to dev environment
     runs-on: ubuntu-22.04
     environment: dev
@@ -36,7 +36,9 @@ jobs:
           MAX_API_URL: ${{ vars.MAX_API_URL }}
 
   deploy-prod:
-    if: github.event_name == 'workflow_dispatch' && github.ref_name == 'main'
+    # Create the job on main pushes and manual runs; approval is enforced by the protected prod environment
+    if: github.ref_name == 'main'
+    needs: deploy-dev
     name: Deploy to prod environment
     runs-on: ubuntu-22.04
     environment: prod
