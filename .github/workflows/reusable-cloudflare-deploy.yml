@@ -1,4 +1,4 @@
-name: Reusable Cloudflare Deploy
+name: Reusable Deploy Cloudflare Worker
 
 on:
   workflow_call:

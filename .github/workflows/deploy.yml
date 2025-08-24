@@ -1,3 +1,5 @@
+name: Deploy Cloudflare Worker
+
 on:
   push:
     branches:
