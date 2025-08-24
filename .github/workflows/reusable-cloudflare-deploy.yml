@@ -4,10 +4,12 @@ on:
   workflow_call:
     inputs:
       environment:
+        # The Wrangler environment name (matches environments in wrangler.toml)
         description: Target Wrangler environment (dev or prod)
         required: true
         type: string
       wranglerVersion:
+        # Optional: pin a specific wrangler version for reproducible deploys
         description: Wrangler version to use
         required: false
         default: '4.24.4'
@@ -28,14 +30,21 @@ jobs:
   deploy:
     name: Deploy to ${{ inputs.environment }} environment
     runs-on: ubuntu-22.04
+    # This ties the job to an environment in GitHub (useful for protection rules)
     environment: ${{ inputs.environment }}
     steps:
       - uses: actions/checkout@v4
+        # Check out repository so Wrangler can read source files and wrangler.toml
       - uses: cloudflare/wrangler-action@v3
         name: Deploy (${{ inputs.environment }})
         with:
+          # Cloudflare API token used by wrangler to publish the worker
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          # Allow callers to control wrangler version for stability or fixes
           wranglerVersion: ${{ inputs.wranglerVersion }}
+          # Pass a list of secrets that should be created/updated in the target Worker
+          # The wrangler-action will take these names and map values from the
+          # environment below or repository/organization secrets as appropriate.
           secrets: |
             LINE_CHANNEL_ACCESS_TOKEN
             LINE_SEND_TO
@@ -44,12 +53,19 @@ jobs:
             BITOPRO_API_URL
             HOYABIT_API_URL
             MAX_API_URL
+          # Deploy into the specified wrangler environment (dev/prod)
           environment: ${{ inputs.environment }}
         env:
+          # Provide secret values to the action. These env vars are read by
+          # the wrangler-action and used to set the worker's secrets or runtime
+          # variables. The caller must ensure required secrets are supplied.
           LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
           LINE_SEND_TO: ${{ secrets.LINE_SEND_TO }}
           CF_ACCESS_CLIENT_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}
           CF_ACCESS_CLIENT_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}
+          # API URLs are read from repository or organization-level variables
+          # (set in GitHub Settings -> Variables) and injected here so wrangler
+          # can add them as worker environment variables.
           BITOPRO_API_URL: ${{ vars.BITOPRO_API_URL }}
           HOYABIT_API_URL: ${{ vars.HOYABIT_API_URL }}
           MAX_API_URL: ${{ vars.MAX_API_URL }}
